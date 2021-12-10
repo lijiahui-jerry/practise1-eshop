@@ -62,11 +62,13 @@ export default {
       //写法二：模板字符串
       // this.$router.push(`/search/${this.keyWord}?k=${this.keyWord.toUpperCase()}`)
       //写法三：对象形式
-      this.$router.push({
-        name: 'search',
-        params: {keyword: this.keyWord},
-        query: {k: this.keyWord.toUpperCase()}
-      })
+      this.$router.push(
+        {
+          name: 'search',
+          params: {keyword: this.keyWord},
+          query: {k: this.keyWord.toUpperCase()},
+        },
+      )
     },
   },
 }

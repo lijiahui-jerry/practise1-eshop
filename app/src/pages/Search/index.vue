@@ -1,6 +1,6 @@
 <template >
   <div >
-    <h1 >params:{{ $route.params }}-------{{ keyword }}----{{ k }}</h1 >
+    <h1 >params:{{ $route.params }}</h1 >
     <h1 >query:{{ $route.query }}</h1 >
   </div >
 </template >

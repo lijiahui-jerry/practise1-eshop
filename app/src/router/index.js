@@ -10,6 +10,26 @@ import Search from "@/pages/Search"
 
 //使用插件
 Vue.use(VueRouter)
+//备份原push
+let originPush = VueRouter.prototype.push
+//备份原replace
+let originReplace = VueRouter.prototype.push
+
+//重写VueRouter原型对象的push方法
+VueRouter.prototype.push =
+  function (target, succeed, failed) {
+    if (succeed && failed)
+      originPush.call(this, target, succeed, failed)
+    originPush.call(this, target, () => { }, () => { })
+  }
+
+//重写VueRouter原型对象的replace方法
+VueRouter.prototype.replace =
+  function (target, succeed, failed) {
+    if (succeed && failed)
+      originReplace.call(this, target, succeed, failed)
+    originReplace.call(this, target, () => { }, () => { })
+  }
 
 //配置路由
 export default new VueRouter({
@@ -45,7 +65,7 @@ export default new VueRouter({
       //写法一：布尔值，不能传递额外参数到目标的$attr
       //props:true,
       //写法二：对象形式，可以传递额外参数（a，b）到目标的$attr
-      // props: {a: 101, b: 202},
+      //props: {a: 101, b: 202},
       //写法三：函数形式，可以传递额外参数（ljh）到目标的$attr
       //props:($route)=>({keyword:$route.params.keyword,k:$route.query.k,ljh:'23'})
       //综上：路由可以传递props参数，并且函数形式的写法最强大。
@@ -53,7 +73,7 @@ export default new VueRouter({
     //重定向
     {
       path: '/',
-      redirect: '/home'
-    }
-  ]
+      redirect: '/home',
+    },
+  ],
 })
