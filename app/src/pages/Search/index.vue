@@ -1,7 +1,7 @@
 <template >
   <div >
-    <h1 >params:{{ $route.params }}</h1 >
-    <h1 >query:{{ $route.query }}</h1 >
+    <!-- 这是search模块 -->
+    <TypeNav></TypeNav>
   </div >
 </template >
 
@@ -11,7 +11,7 @@ export default {
   props: [
     'keyword',
     'k',
-  ]
+  ],
 }
 </script >
 
