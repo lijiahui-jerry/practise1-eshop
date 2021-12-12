@@ -272,12 +272,15 @@ export default {
       total: (state) => state.search.searchInfo.total,
     }),
 
+    //确定以什么类型进行排序
     isOne() {
       return this.searchParams.order.indexOf("1") !== -1;
     },
     isTwo() {
       return this.searchParams.order.indexOf("2") !== -1;
     },
+
+    //确定排序顺序
     isAsc() {
       return this.searchParams.order.indexOf("asc") !== -1;
     },

@@ -3,42 +3,60 @@ import Detail from "@/pages/Detail";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Search from "@/pages/Search";
+import AddCartSuccess from "@/pages/AddCartSuccess";
+import ShopCart from "@/pages/ShopCart";
 
 export default [
   {
-    path: '/home',
-    component: Home,
-    meta: {
-      show: true,
+    path:'/home',
+    component:Home,
+    meta:{
+      show:true,
     },
   },
   {
-    path: '/detail/:skuId',
-    component: Detail,
-    meta: {
-      show: true,
+    path:'/detail/:skuId',
+    component:Detail,
+    meta:{
+      show:true,
     },
   },
   {
-    path: '/login',
-    component: Login,
-    meta: {
-      show: false,
+    path:'/login',
+    component:Login,
+    meta:{
+      show:false,
     },
   },
   {
-    path: '/register',
-    component: Register,
-    meta: {
-      show: false,
+    path:'/register',
+    component:Register,
+    meta:{
+      show:false,
     },
   },
   {
-    name: 'search',
-    path: '/search/:keyword?',
-    component: Search,
-    meta: {
-      show: true,
+    name:'addcartsuccess',
+    path:'/addcartsuccess',
+    component:AddCartSuccess,
+    meta:{
+      show:true,
+    },
+  },
+  {
+    name:'shopcart',
+    path:'/shopcart',
+    component:ShopCart,
+    meta:{
+      show:true,
+    },
+  },
+  {
+    name:'search',
+    path:'/search/:keyword?',
+    component:Search,
+    meta:{
+      show:true,
     },
     //写法一：布尔值，不能传递额外参数到目标的$attr
     //props:true,
@@ -47,11 +65,11 @@ export default [
     //写法三：函数形式，可以传递额外参数（ljh）到目标的$attr
     //props:$route=>({keyword:$route.params.keyword,k:$route.query.k,ljh:'23'})
     //综上：路由可以传递props参数，并且函数形式的写法最强大。
-    props: $route => ({keyword: $route.params.keyword}),
+    props:$route=>({keyword:$route.params.keyword}),
   },
   //重定向
   {
-    path: '/',
-    redirect: '/home',
+    path:'/',
+    redirect:'/home',
   },
 ]

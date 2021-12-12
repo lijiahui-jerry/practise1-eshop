@@ -1,4 +1,4 @@
-import {reqGoodsInfo} from "@/api";
+import {reqGoodsInfo, reqCartInfo} from "@/api";
 
 const state = {
   goodsInfo: {},
@@ -17,11 +17,18 @@ const actions = {
     if (result.code === 200)
       commit('GETGOODSINFO', result.data)
   },
+
+  //将物品添加到购物车的行为
+  async addToCart({commit}, {id, count}) {
+    let result = await reqCartInfo(id, count)
+    if (result.code == 200) return '加入购物车成功'
+    else return Promise.reject(new Error('加入购物车失败'))
+  },
 }
 
 const getters = {
-  categoryView(state) {
-    return state.goodsInfo.categoryView || {}
+  view(state) {
+    return state.goodsInfo.view || {}
   },
   skuInfo(state) {
     return state.goodsInfo.skuInfo || {}

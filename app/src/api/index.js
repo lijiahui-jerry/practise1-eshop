@@ -3,24 +3,31 @@ import mockRequests from "@/api/mockRequest";
 
 //ajax获取三级菜单的函数
 export const reqCategoryList =
-  () => requests.get('/product/getBaseCategoryList')
+               () => requests.get('/product/getBaseCategoryList')
 
 //ajax获取商品搜索结果的函数
 export const reqSearchInfo =
-  (params) => requests({
-    url: '/list',
-    method: 'POST',
-    data: params,
-  })
+               params => requests({
+                 url   : '/list',
+                 method: 'POST',
+                 data  : params,
+               })
 
 //ajax获取商品详情
 export const reqGoodsInfo =
-  skuId => requests.get(`/item/${skuId}`)
+               skuId => requests.get(`/item/${skuId}`)
+
+//ajax将商品添加到购物车并修改已有数据
+export const reqCartInfo =
+               (id, count) => requests({
+                 url   : `/cart/addToCart/${id}/${count}`,
+                 method: 'POST',
+               })
 
 //ajax获取banner（首页轮播图）的函数
 export const reqBannerList =
-  () => mockRequests.get('/banner')
+               () => mockRequests.get('/banner')
 
 //ajax获取floor的函数
 export const reqFloorList =
-  () => mockRequests.get('/floor')
+               () => mockRequests.get('/floor')
