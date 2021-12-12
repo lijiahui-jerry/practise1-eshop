@@ -10,7 +10,6 @@ export default {
   name: "Search",
   props: [
     'keyword',
-    'k',
   ],
 }
 </script >

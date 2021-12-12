@@ -1,9 +1,10 @@
 //home模块的小仓库
 
-import {reqCategoryList} from "@/api";
+import {reqCategoryList, reqBannerList} from "@/api";
 
 const state = {
   categoryList: [],
+  bannerList: [],
 }
 
 const mutations = {
@@ -14,6 +15,9 @@ const mutations = {
     //this.state.home.categoryList = value
     state.categoryList = value
   },
+  BANNERLIST(state, value) {
+    state.bannerList = value
+  },
 }
 
 const actions = {
@@ -21,6 +25,10 @@ const actions = {
   async categoryList({commit}) {
     let result = await reqCategoryList()
     if (result.code === 200) commit('CATEGORYLIST', result.data)
+  },
+  async bannerList({commit}) {
+    let result = await reqBannerList()
+    if (result.code === 200) commit('BANNERLIST', result.data)
   },
 }
 

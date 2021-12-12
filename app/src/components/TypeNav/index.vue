@@ -94,12 +94,16 @@ export default {
 
       //判断是否点在“字”上，点在空白处不反应
       if (categoryname) {
+        //判断几级菜单
         if (category1id) query.category1Id = category1id
         else if (category2id) query.category2Id = category2id
         else query.category3Id = category3id
 
-        location.query = query
-        this.$router.push(location)
+        if (this.$route.params) {
+          location.params = this.$route.params
+          location.query = query
+          this.$router.push(location)
+        }
       }
     },
 

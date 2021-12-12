@@ -33,10 +33,10 @@
       </h1 >
       <div class="searchArea" >
         <form action="###" class="searchForm" >
-          <input v-model="keyWord"
+          <input v-model="keyword"
                  type="text" id="autocomplete" class="input-error input-xxlarge" />
-          <button @click="goSearch"
-                  class="sui-btn btn-xlarge btn-danger" type="button" >
+          <button class="sui-btn btn-xlarge btn-danger" type="button"
+                  @click="goSearch" >
             搜索
           </button >
         </form >
@@ -51,7 +51,7 @@ export default {
   name: "Header",
   data() {
     return {
-      keyWord: '',
+      keyword: '',
     }
   },
   methods: {
@@ -62,13 +62,21 @@ export default {
       //写法二：模板字符串
       // this.$router.push(`/search/${this.keyWord}?k=${this.keyWord.toUpperCase()}`)
       //写法三：对象形式
-      this.$router.push(
-        {
-          name: 'search',
-          params: {keyword: this.keyWord},
-          query: {k: this.keyWord.toUpperCase()},
-        },
-      )
+      // this.$router.push(
+      //   {
+      //     name: 'search',
+      //     params: {keyword: this.keyWord},
+      //   },
+      // )
+      if (this.$route.query) {
+        let location = {name: 'search'}
+        let params = {keyword: this.keyword||undefined}
+
+        location.query = this.$route.query
+        location.params = params
+
+        this.$router.push(location)
+      }
     },
   },
 }
