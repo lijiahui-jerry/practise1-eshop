@@ -5,6 +5,18 @@ import mockRequests from "@/api/mockRequest";
 export const reqCategoryList =
   () => requests.get('/product/getBaseCategoryList')
 
+//ajax获取商品搜索结果的函数
+export const reqSearchInfo =
+  (params) => requests({
+    url: '/list',
+    method: 'POST',
+    data: params,
+  })
+
 //ajax获取banner（首页轮播图）的函数
 export const reqBannerList =
   () => mockRequests.get('/banner')
+
+//ajax获取floor的函数
+export const reqFloorList =
+  () => mockRequests.get('/floor')

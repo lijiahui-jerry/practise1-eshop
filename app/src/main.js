@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from "@/router"
 //引入全局路由组件
 import TypeNav from "@/components/TypeNav"
+import Carousel from "@/components/Carousel";
 // //引入统一管理的api接口
 // import {reqCategoryList} from "@/api"
 //引入仓库
@@ -15,6 +16,7 @@ import 'swiper/css/swiper.css'
 Vue.config.productionTip = false
 //注册全局路由组件
 Vue.component(TypeNav.name, TypeNav)
+Vue.component(Carousel.name, Carousel)
 
 
 // //请求数据

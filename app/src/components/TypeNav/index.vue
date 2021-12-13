@@ -77,9 +77,7 @@ export default {
       //#节流#：使浏览器每50ms反应一次，避免用户操作过快导致的过量反应
       function (i) {
         this.currentIndex = i;
-      },
-      50,
-    ),
+      }, 50),
 
     //三级联动的路由跳转
     goSearch(event) {

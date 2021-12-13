@@ -3,22 +3,7 @@
   <div class="list-container" >
     <div class="sortList clearfix" >
       <div class="center" >
-        <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper" >
-          <div class="swiper-wrapper" >
-            <div class="swiper-slide"
-                 v-for="(carousel,index) in bannerList" :key="carousel.id" >
-              <img alt=""
-                   :src="carousel.imgUrl" />
-            </div >
-          </div >
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination" ></div >
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev" ></div >
-          <div class="swiper-button-next" ></div >
-        </div >
+        <Carousel :carouselList="bannerList" ></Carousel >
       </div >
       <div class="right" >
         <div class="news" >
@@ -105,36 +90,12 @@
 
 <script >
 import {mapState} from "vuex";
-//引入swiper插件
-import Swiper from 'swiper'
 
 export default {
   name: "ListContainer",
 
   mounted() {
     this.$store.dispatch('bannerList')
-
-    //异步使用swiper（简易版）
-    setTimeout(
-      () => {
-        let mySwiper = new Swiper('.swiper-container', {
-          //循环轮播
-          loop: true,
-
-          //分页器设置
-          pagination: {
-            el: '.swiper-pagination',
-            //点击分页器切换轮播图
-            clickable: true,
-          },
-
-          //前进后退按钮
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          },
-        })
-      }, 500)
   },
 
   computed: {
