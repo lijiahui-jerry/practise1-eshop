@@ -54,6 +54,7 @@ export default {
       keyword: '',
     }
   },
+
   methods: {
     //搜索功能
     goSearch() {
@@ -70,7 +71,7 @@ export default {
       // )
       if (this.$route.query) {
         let location = {name: 'search'}
-        let params = {keyword: this.keyword||undefined}
+        let params = {keyword: this.keyword || undefined}
 
         location.query = this.$route.query
         location.params = params
@@ -78,6 +79,12 @@ export default {
         this.$router.push(location)
       }
     },
+  },
+
+  mounted() {
+    this.$bus.$on('clearKeyword', () => {
+      this.keyword = ''
+    })
   },
 }
 </script >

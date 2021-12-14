@@ -56,12 +56,12 @@ export default new VueRouter({
       },
     },
     {
-      path: '/search/:keyword',
+      name: 'search',
+      path: '/search/:keyword?',
       component: Search,
       meta: {
         show: true,
       },
-      name: 'search',
       //写法一：布尔值，不能传递额外参数到目标的$attr
       //props:true,
       //写法二：对象形式，可以传递额外参数（a，b）到目标的$attr

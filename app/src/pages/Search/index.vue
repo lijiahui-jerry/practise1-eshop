@@ -11,38 +11,55 @@
             </li >
           </ul >
           <ul class="fl sui-tag" >
-            <li class="with-x" >手机</li >
-            <li class="with-x" >iphone<i >×</i ></li >
-            <li class="with-x" >华为<i >×</i ></li >
-            <li class="with-x" >OPPO<i >×</i ></li >
+            <!-- 分类的面包屑 -->
+            <li class="with-x"
+                v-if='searchParams.categoryName' >
+              {{ searchParams.categoryName }}
+              <i @click="removeCategoryName" >×</i >
+            </li >
+            <!-- 关键字的面包屑 -->
+            <li class="with-x"
+                v-if='searchParams.keyword' >
+              {{ searchParams.keyword }}
+              <i @click="removeKeyword" >×</i >
+            </li >
+            <!-- 品牌的面包屑 -->
+            <li class="with-x"
+                v-if='searchParams.trademark' >
+              <!-- split将品牌字符串在冒号处切割为数组的两个部分 -->
+              {{ searchParams.trademark.split(':')[1] }}
+              <i @click="removeTrademark" >×</i >
+            </li >
+            <!-- 商品属性的面包屑 -->
+            <li class="with-x"
+                v-for="(attrValue,index) in searchParams.props" :key="index" >
+              {{ attrValue.split(':')[1] }}
+              <i @click="removeAttrValue(index)" >×</i >
+            </li >
           </ul >
         </div >
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix" >
           <div class="sui-navbar" >
             <div class="navbar-inner filter" >
               <ul class="sui-nav" >
-                <li class="active" >
-                  <a href="#" >综合</a >
+                <li :class="{'active':isOne}" @click="changeOrder('1')" >
+                  <a >综合
+                    <span class="iconfont"
+                          :class="{'icon-direction-down':isDesc,'icon-direction-up':isAsc}"
+                          v-show="isOne" ></span >
+                  </a >
                 </li >
-                <li >
-                  <a href="#" >销量</a >
-                </li >
-                <li >
-                  <a href="#" >新品</a >
-                </li >
-                <li >
-                  <a href="#" >评价</a >
-                </li >
-                <li >
-                  <a href="#" >价格⬆</a >
-                </li >
-                <li >
-                  <a href="#" >价格⬇</a >
+                <li :class="{'active':isTwo}" @click="changeOrder('2')" >
+                  <a >价格
+                    <span class="iconfont"
+                          :class="{'icon-direction-down':isDesc,'icon-direction-up':isAsc}"
+                          v-show="isTwo" ></span >
+                  </a >
                 </li >
               </ul >
             </div >
@@ -50,26 +67,26 @@
           <div class="goods-list" >
             <ul class="yui3-g" >
               <li class="yui3-u-1-5"
-                  v-for="v in goodsList" :key="v.id" >
+                  v-for="goods in goodsList" :key="goods.id" >
                 <div class="list-wrap" >
                   <div class="p-img" >
                     <a href="item.html" target="_blank" >
                       <img alt=""
-                           :src="v.defaultImg" />
+                           :src="goods.defaultImg" />
                     </a >
                   </div >
                   <div class="price" >
                     <strong >
-                      <i ><em >¥</em >{{ v.price }}</i >
+                      <i ><em >¥</em >{{ goods.price }}</i >
                     </strong >
                   </div >
                   <div class="attr" >
                     <a target="_blank" href="item.html" title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】" >
-                      {{ v.title }}
+                      {{ goods.title }}
                     </a >
                   </div >
                   <div class="commit" >
-                    <i class="command" >已有<span >{{ v.hotScore }}</span >人评价</i >
+                    <i class="command" >已有<span >{{ goods.hotScore }}</span >人评价</i >
                   </div >
                   <div class="operate" >
                     <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger" >加入购物车</a >
@@ -79,35 +96,7 @@
               </li >
             </ul >
           </div >
-          <div class="fr page" >
-            <div class="sui-pagination clearfix" >
-              <ul >
-                <li class="prev disabled" >
-                  <a href="#" >«上一页</a >
-                </li >
-                <li class="active" >
-                  <a href="#" >1</a >
-                </li >
-                <li >
-                  <a href="#" >2</a >
-                </li >
-                <li >
-                  <a href="#" >3</a >
-                </li >
-                <li >
-                  <a href="#" >4</a >
-                </li >
-                <li >
-                  <a href="#" >5</a >
-                </li >
-                <li class="dotted" ><span >...</span ></li >
-                <li class="next" >
-                  <a href="#" >下一页»</a >
-                </li >
-              </ul >
-              <div ><span >共10页&nbsp;</span ></div >
-            </div >
-          </div >
+          <Pagination></Pagination>
         </div >
       </div >
     </div >
@@ -129,11 +118,11 @@ export default {
         category3Id: '',
         categoryName: '',
         keyword: '',
+        order: '1:desc',
+        pageNo: 1,
+        pageSize: 10,
         props: [],
         trademark: '',
-        order: '',
-        pageNo: 1,
-        pageSize: 3,
       },
     }
   },
@@ -151,13 +140,112 @@ export default {
   },
 
   methods: {
+    //获取数据
     getData() {
       this.$store.dispatch('getSearchInfo', this.searchParams)
+    },
+
+    //移除分类的面包屑
+    removeCategoryName() {
+      this.searchParams.categoryName = undefined
+      this.searchParams.category1Id = undefined
+      this.searchParams.category2Id = undefined
+      this.searchParams.category3Id = undefined
+
+      this.getData()
+      if (this.$route.params)
+        this.$router.push({name: 'search', params: this.$route.params})
+    },
+
+    //移除关键字的面包屑
+    removeKeyword() {
+      this.searchParams.keyword = undefined
+
+      this.getData()
+
+      this.$bus.$emit('clearKeyword')
+
+      if (this.$route.query)
+        this.$router.push({name: 'search', query: this.$route.query})
+    },
+
+    //移除品牌信息的面包屑
+    removeTrademark() {
+      this.searchParams.trademark = undefined
+      this.getData()
+    },
+
+    //移除商品属性的面包屑
+    removeAttrValue(index) {
+      this.searchParams.props.splice(index, 1)
+
+      this.getData()
+    },
+
+    //获取子组件传过来的品牌信息
+    trademarkInfo(trademark) {
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+
+      this.getData()
+    },
+
+    //获取子组件传过来的商品属性信息
+    attrInfo(attr, attrValue) {
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`
+      if (this.searchParams.props.indexOf(props) === -1)
+        this.searchParams.props.push(props)
+
+      this.getData()
+    },
+
+    //改变排序属性
+    changeOrder(flag) {
+      //记录原来的order各个属性
+      let originOrder = this.searchParams.order
+      let originFlag = this.searchParams.order.split(':')[0]
+      let originSort = this.searchParams.order.split(':')[1]
+
+      let newOrder = `${flag}:`
+      let s = (originSort === 'desc' ? 'asc' : 'desc')
+      //如果点击的排序已被激活，更改它降或升序
+      if (flag === originFlag) newOrder += s
+      else newOrder += 'desc'
+
+      this.searchParams.order = newOrder
+
+      this.getData()
+    },
+  },
+
+  watch: {
+    $route(newValue, oldValue) {
+      Object.assign(
+        this.searchParams,
+        this.$route.query,
+        this.$route.params,
+      )
+      this.getData()
+
+      this.searchParams.category1Id = undefined
+      this.searchParams.category2Id = undefined
+      this.searchParams.category3Id = undefined
     },
   },
 
   computed: {
     ...mapGetters(['goodsList']),
+    isOne() {
+      return this.searchParams.order.indexOf('1') !== -1
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf('2') !== -1
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf('asc') !== -1
+    },
+    isDesc() {
+      return this.searchParams.order.indexOf('desc') !== -1
+    },
   },
 }
 </script >
