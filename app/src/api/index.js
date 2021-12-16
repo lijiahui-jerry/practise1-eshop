@@ -13,6 +13,10 @@ export const reqSearchInfo =
     data: params,
   })
 
+//ajax获取商品详情
+export const reqGoodsInfo =
+  skuId => requests.get(`/item/${skuId}`)
+
 //ajax获取banner（首页轮播图）的函数
 export const reqBannerList =
   () => mockRequests.get('/banner')

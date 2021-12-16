@@ -1,18 +1,18 @@
 <template >
-  <div class="pagination">
+  <div class="pagination" >
     <!-- 点击往前翻页，并且在第一页不能点击 -->
-    <button :disabled="pageNo === 1" @click="$emit('getPage', pageNo - 1)">
+    <button :disabled="pageNo === 1" @click="$emit('getPage', pageNo - 1)" >
       上一页
-    </button>
+    </button >
     <button
       v-if="startAndEnd.start > 1"
       @click="$emit('getPage', 1)"
       :class="{ active: pageNo == 1 }"
     >
       1
-    </button>
+    </button >
 
-    <button v-if="startAndEnd.start > 2">···</button>
+    <button v-if="startAndEnd.start > 2" >···</button >
 
     <button
       v-for="(page, index) in startAndEnd.end"
@@ -22,23 +22,23 @@
       :class="{ active: pageNo == page }"
     >
       {{ page }}
-    </button>
+    </button >
 
-    <button v-if="startAndEnd.end < totalPage - 1">···</button>
-    <button v-if="startAndEnd.end < totalPage">
+    <button v-if="startAndEnd.end < totalPage - 1" >···</button >
+    <button v-if="startAndEnd.end < totalPage" >
       {{ totalPage }}
-    </button>
+    </button >
     <button
       :disabled="pageNo === totalPage"
       @click="$emit('getPage', pageNo + 1)"
     >
       下一页
-    </button>
+    </button >
 
-    <button style="margin-left: 30px" :disabled="true">
+    <button style="margin-left: 30px" :disabled="true" >
       共&nbsp;{{ total }}&nbsp;条
-    </button>
-  </div>
+    </button >
+  </div >
 </template >
 
 <script >
@@ -60,7 +60,7 @@ export default {
 
     //计算连续页面的起始页数和结束页数
     startAndEnd() {
-      const { pageNo, continues, totalPage } = this;
+      const {pageNo, continues, totalPage} = this;
       let start = 0,
         end = 0;
       if (continues > totalPage) {
@@ -81,7 +81,7 @@ export default {
         }
       }
 
-      return { start, end };
+      return {start, end};
     },
   },
 };
