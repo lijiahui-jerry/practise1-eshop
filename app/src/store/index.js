@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import home from "@/store/home"
 import search from "@/store/search";
 import detail from "@/store/detail";
+import cart from "@/store/cart";
 
 Vue.use(Vuex)
 
@@ -45,9 +46,10 @@ export default new Vuex.Store({
   // getters,
 
   //多个小仓库的暴露方式
-  modules: {
+  modules:{
     home,
     search,
     detail,
+    cart,
   },
 })

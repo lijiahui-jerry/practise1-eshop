@@ -24,7 +24,10 @@
      <router-link class="sui-btn btn-xlarge" :to="`/detail/${skuInfo.id}`">
       查看商品详情
      </router-link>
-     <router-link to="/shopcart">去购物车结算</router-link>
+
+     <router-link to="/shopcart">
+      去购物车结算
+     </router-link>
     </div>
    </div>
   </div>

@@ -6,27 +6,27 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 //创建一个axios对象（requests）并配置
-const requests = axios.create({
+const requests=axios.create({
   //基础路径
-  baseURL: '/mock/',
+  baseURL:'/mock/',
   //超时时间
-  timeout: 5000,
+  timeout:5000,
 })
 
 //请求拦截器
 requests.interceptors.request.use(
-  (config) => {
+  (config)=>{
     nprogress.start()
     return config
   },
 )
 //响应拦截器
 requests.interceptors.response.use(
-  (res) => {
+  (res)=>{
     nprogress.done()
     return res.data
   },
-  (err) => {
+  (err)=>{
     nprogress.done()
     return Promise.reject(new Error(err.message))
   },
