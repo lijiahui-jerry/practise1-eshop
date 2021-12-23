@@ -1,22 +1,22 @@
-<template >
-  <div >
-    <!-- 直接使用全局路由组件 -->
-    <!-- <button @click="selfAdd">+1</button > -->
-    <!-- <span >{{ count }}</span > -->
-    <!-- <button @click="selfMinus" >-1</button > -->
+<template>
+ <div>
+  <!-- 直接使用全局路由组件 -->
+  <!-- <button @click="selfAdd">+1</button > -->
+  <!-- <span >{{ count }}</span > -->
+  <!-- <button @click="selfMinus" >-1</button > -->
 
-    <TypeNav ></TypeNav >
-    <ListContainer ></ListContainer >
-    <Recommend ></Recommend >
-    <Rank ></Rank >
-    <Like ></Like >
-    <Floor v-for="(v) in floorList" :key="v.id" :list="v" ></Floor >
-    <!-- <Floor ></Floor > -->
-    <Brand ></Brand >
-  </div >
-</template >
+  <TypeNav></TypeNav>
+  <ListContainer></ListContainer>
+  <Recommend></Recommend>
+  <Rank></Rank>
+  <Like></Like>
+  <Floor v-for="(v) in floorList" :key="v.id" :list="v"></Floor>
+  <!-- <Floor ></Floor > -->
+  <Brand></Brand>
+ </div>
+</template>
 
-<script >
+<script>
 //引入路由组件
 import ListContainer from "@/pages/Home/ListContainer"
 import Recommend from "@/pages/Home/Recommend"
@@ -28,8 +28,8 @@ import Brand from "@/pages/Home/Brand"
 import {mapState} from "vuex"
 
 export default {
-  name: "Home",
-  components: {
+  name:"Home",
+  components:{
     ListContainer,
     Recommend,
     Rank,
@@ -38,18 +38,18 @@ export default {
     Brand,
   },
 
-  mounted() {
+  mounted(){
     this.$store.dispatch("floorList")
   },
 
-  computed: {
+  computed:{
     //映射仓库数据，映射之后就不用再通过this.$store.state获取仓库数据了
     ...mapState({
-      floorList: state => state.home.floorList,
+      floorList:state=>state.home.floorList,
     }),
   },
 
-  methods: {
+  methods:{
     // //向仓库派发自加action
     // selfAdd() {
     //   this.$store.dispatch('selfAdd')
@@ -59,8 +59,8 @@ export default {
     // },
   },
 }
-</script >
+</script>
 
-<style scoped >
+<style scoped>
 
-</style >
+</style>

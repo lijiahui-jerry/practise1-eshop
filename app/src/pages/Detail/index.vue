@@ -396,6 +396,7 @@ export default {
       spuSaleAttrValueList.forEach(item=>item.isChecked=0)
       spuSaleAttrValue.isChecked=1
     },
+
     changeSkuCount(event){
       let count=event.target.value*1
       if(isNaN(count)||count<1) this.skuCount=1

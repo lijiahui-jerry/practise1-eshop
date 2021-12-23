@@ -79,12 +79,13 @@
 
   <div class="cart-tool">
    <div class="select-all">
-    <input class="chooseAll" type="checkbox" :checked="isAllChecked">
+    <input class="chooseAll" type="checkbox" @click="toggleAllChecked($event)"
+           :checked="isAllChecked&&cartInfoList.length>0">
     <span>全选</span>
    </div>
 
    <div class="option">
-    <a href="#none">删除选中的商品</a>
+    <a @click="delAllChecked">删除选中的商品</a>
     <a href="#none">移到我的关注</a>
     <a href="#none">清除下柜商品</a>
    </div>
@@ -153,14 +154,37 @@ export default {
       }
     },
 
+    //删除购物车中选中的商品
+    async delAllChecked(){
+      try{
+        await this.$store.dispatch("delAllCheckedFromCart")
+        this.getData()
+      }catch(e){
+        alert(e.message)
+      }
+
+    },
+
     //更改商品选中状态
     async toggleChecked(cart,event){
       try{
         await this.$store.dispatch('toggleChecked',
-          {id:cart.skuId,v:event.target.checked?'1':'0'})
+          {skuId:cart.skuId,isChecked:event.target.checked?'1':'0'})
         this.getData()
       }catch(e){
         alert(e.message)
+      }
+    },
+
+    //全选切换
+    async toggleAllChecked(event){
+      try{
+        let checked=event.target.checked?'1':'0'
+        await this.$store.dispatch('toggleAllChecked',checked)
+        this.getData()
+      }catch(e){
+        if(e instanceof TypeError) alert('当前没有商品')
+        else if(e instanceof ReferenceError) alert('当前没有商品')
       }
     },
   },

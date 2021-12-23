@@ -18,6 +18,18 @@ export const reqCartList=
 export const changeCheckedInCart=
   (skuID,isChecked)=>requests.get(`/cart/checkCart/${skuID}/${isChecked}`)
 
+//ajax获取验证码
+export const reqPasscode=
+  (phone)=>requests.get(`/user/passport/sendCode/${phone}`)
+
+//token获取用户的信息
+export const reqUserInfo=
+  ()=>requests.get(`/user/passport/auth/getUserInfo`)
+
+//退出登录
+export const reqUserLogout=
+  ()=>requests.get(`/user/passport/logout`)
+
 //POST
 //ajax获取商品搜索结果的函数
 export const reqSearchInfo=
@@ -34,10 +46,26 @@ export const reqCartInfo=
     method:'POST',
   })
 
+//注册
+export const reqUserRegister=
+  (data)=>requests({
+    url:`/user/passport/register`,
+    method:'POST',
+    data,
+  })
+
+//登录
+export const reqUserLogin=
+  (data)=>requests({
+    url:`/user/passport/login`,
+    method:'POST',
+    data,
+  })
+
 //DELETE
 //ajax删除购物车中特定skuId的商品
 export const delCartInfo=
-  skuId=>requests({
+  (skuId)=>requests({
     url:`/cart/deleteCart/${skuId}`,
     method:'DELETE',
   })

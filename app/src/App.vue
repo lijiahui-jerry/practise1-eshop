@@ -1,29 +1,29 @@
-<template >
-  <div >
-    <Header ></Header >
-    <router-view ></router-view >
-    <Footer v-show="$route.meta.show" ></Footer >
-  </div >
-</template >
+<template>
+ <div>
+  <Header></Header>
+  <router-view></router-view>
+  <Footer v-show="$route.meta.show"></Footer>
+ </div>
+</template>
 
-<script >
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+<script>
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
 
 export default {
-  name: 'App',
+  name:'App',
 
-  components: {
+  components:{
     Header,
     Footer,
   },
 
-  mounted() {
+  mounted(){
     this.$store.dispatch("categoryList")
   },
 }
-</script >
+</script>
 
-<style scoped >
+<style scoped>
 
-</style >
+</style>
