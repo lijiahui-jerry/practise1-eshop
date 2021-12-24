@@ -1,15 +1,24 @@
-import Home from "@/pages/Home";
-import Detail from "@/pages/Detail";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import Search from "@/pages/Search";
-import AddCartSuccess from "@/pages/AddCartSuccess";
-import ShopCart from "@/pages/ShopCart";
+import Home from "@/pages/Home"
+import Detail from "@/pages/Detail"
+import Login from "@/pages/Login"
+import Register from "@/pages/Register"
+import Search from "@/pages/Search"
+import AddCartSuccess from "@/pages/AddCartSuccess"
+import ShopCart from "@/pages/ShopCart"
+import Trade from "@/pages/Trade"
 
 export default [
   {
     path:'/home',
     component:Home,
+    meta:{
+      show:true,
+    },
+  },
+  {
+    name:'trade',
+    path:'/trade',
+    component:Trade,
     meta:{
       show:true,
     },

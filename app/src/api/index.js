@@ -1,5 +1,5 @@
 import requests from "@/api/request"
-import mockRequests from "@/api/mockRequest";
+import mockRequests from "@/api/mockRequest"
 
 //GET
 //ajax获取三级菜单的函数
@@ -8,7 +8,7 @@ export const reqCategoryList=
 
 //ajax获取商品详情
 export const reqGoodsInfo=
-  skuId=>requests.get(`/item/${skuId}`)
+  (skuId)=>requests.get(`/item/${skuId}`)
 
 //ajax获取购物车数据
 export const reqCartList=
@@ -29,6 +29,14 @@ export const reqUserInfo=
 //退出登录
 export const reqUserLogout=
   ()=>requests.get(`/user/passport/logout`)
+
+//获取用户地址信息
+export const reqUserAddressList=
+  ()=>requests.get(`/user/userAddress/auth/findUserAddressList`)
+
+//获取订单支付信息
+export const reqOrderInfo=
+  ()=>requests.get(`/order/auth/trade`)
 
 //POST
 //ajax获取商品搜索结果的函数

@@ -2,10 +2,11 @@ import Vue from "vue"
 import Vuex from 'vuex'
 //引入小仓库
 import home from "@/store/home"
-import search from "@/store/search";
-import detail from "@/store/detail";
-import cart from "@/store/cart";
-import user from "@/store/user";
+import search from "@/store/search"
+import detail from "@/store/detail"
+import cart from "@/store/cart"
+import user from "@/store/user"
+import trade from "@/store/trade"
 
 Vue.use(Vuex)
 
@@ -53,5 +54,6 @@ export default new Vuex.Store({
     detail,
     cart,
     user,
+    trade,
   },
 })

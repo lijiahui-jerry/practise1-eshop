@@ -99,16 +99,18 @@
      <em>总价（不含运费） ：</em><i class="summoney">{{totalPrice}}</i>
     </div>
 
-    <div class="sumbtn">
-     <a class="sum-btn" href="###" target="_blank">结算</a>
-    </div>
+    <router-link to="trade">
+     <div class="sumbtn">
+      <a class="sum-btn">结算</a>
+     </div>
+    </router-link>
    </div>
   </div>
  </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapGetters} from "vuex"
 import throttle from 'lodash/throttle'
 
 export default {
@@ -131,7 +133,7 @@ export default {
             //if(cart.skuNum<1) delta=0
             break
           case 'change':
-            if(isNaN(delta)||delta<1) delta=0
+            if(isNaN(delta) || delta<1) delta=0
             else delta=parseInt(delta)-cart.skuNum
             break
         }
@@ -193,7 +195,7 @@ export default {
     ...mapGetters(['cartList']),
 
     cartInfoList(){
-      return this.cartList.cartInfoList||[]
+      return this.cartList.cartInfoList || []
     },
 
     //计算总价
