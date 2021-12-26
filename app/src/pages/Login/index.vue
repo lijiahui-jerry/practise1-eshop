@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import {reqUserLogin} from "@/api";
+import {reqUserLogin} from "@/api"
 
 export default {
   name:'Login',
@@ -83,7 +83,9 @@ export default {
       try{
         (phone && password) && await this.$store.dispatch('userLogin',
           {phone,password})
-        this.$router.push('/home')
+
+        let toPath=this.$route.query.redirect || '/home'
+        this.$router.push(toPath)
       }catch(e){
         alert(e.message)
       }

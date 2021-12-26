@@ -11,34 +11,46 @@
 
    <div class="content">
     <label>手机号:</label>
-    <input type="text" placeholder="请输入你的手机号" v-model="phone">
-    <span class="error-msg">错误提示信息</span>
+    <input type="text" placeholder="请输入你的手机号" v-model="phone" name="phone"
+           v-validate="{required:true,regex:/^1\d{10}$/}"
+           :class="{invalid:errors.has('phone')}"/>
+    <span class="error-msg">{{errors.first('phone')}}</span>
    </div>
 
    <div class="content">
     <label>验证码:</label>
-    <input type="text" placeholder="请输入验证码" v-model="passcode">
+    <input type="text" placeholder="请输入验证码" v-model="passcode" name="passcode"
+           v-validate="{required:true,regex:/^\d{6}$/}"
+           :class="{invalid:errors.has('passcode')}"/>
     <button @click="getPasscode">获取验证码</button>
-    <span class="error-msg">错误提示信息</span>
+    <span class="error-msg">{{errors.first('passcode')}}</span>
    </div>
 
    <div class="content">
     <label>登录密码:</label>
-    <input type="password" placeholder="请输入你的登录密码" v-model="password">
-    <span class="error-msg">错误提示信息</span>
+    <input type="password" placeholder="请输入你的登录密码" v-model="password"
+           name="password"
+           v-validate="{required:true,regex:/^[0-9A-Za-z]{8,20}$/}"
+           :class="{invalid:errors.has('password')}"/>
+    <span class="error-msg">{{errors.first('password')}}</span>
    </div>
 
    <div class="content">
     <label>确认密码:</label>
-    <input type="password" placeholder="请输入确认密码"
-           v-model="confirmPassword">
-    <span class="error-msg">错误提示信息</span>
+    <input type="password" placeholder="请输入确认密码" v-model="confirmPassword"
+           name="confirmPassword"
+           v-validate="{required:true,is:password}"
+           :class="{invalid:errors.has('password')}"/>
+    <span class="error-msg">{{errors.first('confirmPassword')}}</span>
    </div>
 
    <div class="controls">
-    <input name="m1" type="checkbox" :checked="ifAgree">
+    <input type="checkbox" v-model="ifAgree"
+           name="ifAgree" :checked="ifAgree"
+           v-validate="{required:true,agree:true}"
+           :class="{invalid:errors.has('ifAgree')}"/>
     <span>同意协议并注册《尚品汇用户协议》</span>
-    <span class="error-msg">错误提示信息</span>
+    <span class="error-msg">{{errors.first('ifAgree')}}</span>
    </div>
 
    <div class="btn">
@@ -71,7 +83,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapState} from "vuex"
 
 export default {
   name:'Register',
@@ -92,15 +104,18 @@ export default {
 
     //注册用户
     async userRegister(){
-      const {phone,passcode,password,confirmPassword,ifAgree}=this
+      const ifSucceed=await this.$validator.validateAll()
 
-      try{
-        (phone && passcode && password==confirmPassword && ifAgree) &&
-        await this.$store.dispatch('userRegister',
-          {phone,password,code:passcode})
-        this.$router.push('/login')
-      }catch(e){
-        alert(e.message)
+      if(ifSucceed){
+        const {phone,passcode,password,confirmPassword,ifAgree}=this
+
+        try{
+          await this.$store.dispatch('userRegister',
+            {phone,password,code:passcode})
+          this.$router.push('/login')
+        }catch(e){
+          alert(e.message)
+        }
       }
     },
   },

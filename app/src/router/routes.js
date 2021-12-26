@@ -1,16 +1,7 @@
-import Home from "@/pages/Home"
-import Detail from "@/pages/Detail"
-import Login from "@/pages/Login"
-import Register from "@/pages/Register"
-import Search from "@/pages/Search"
-import AddCartSuccess from "@/pages/AddCartSuccess"
-import ShopCart from "@/pages/ShopCart"
-import Trade from "@/pages/Trade"
-
 export default [
   {
     path:'/home',
-    component:Home,
+    component:()=>import("@/pages/Home"),
     meta:{
       show:true,
     },
@@ -18,28 +9,73 @@ export default [
   {
     name:'trade',
     path:'/trade',
-    component:Trade,
+    component:()=>import("@/pages/Trade"),
+    meta:{
+      show:true,
+    },
+    beforeEnter:(to,from,next)=>{
+      if(from.path.indexOf('/shopcart')!= -1) next()
+      else next(false)
+    },
+  },
+  {
+    name:'pay',
+    path:'/pay',
+    component:()=>import("@/pages/Pay"),
+    meta:{
+      show:true,
+    },
+    beforeEnter:(to,from,next)=>{
+      if(from.path.indexOf('/trade')!= -1) next()
+      else next(false)
+    },
+  },
+  {
+    name:'paysuccess',
+    path:'/paysuccess',
+    component:()=>import("@/pages/PaySuccess"),
     meta:{
       show:true,
     },
   },
   {
+    path:'/center',
+    component:()=>import("@/pages/Center"),
+    meta:{
+      show:true,
+    },
+    children:[
+      {
+        path:'myorder',
+        component:()=>import("@/pages/Center/MyOrder"),
+      },
+      {
+        path:'grouporder',
+        component:()=>import("@/pages/Center/GroupOrder"),
+      },
+      {
+        path:'',
+        redirect:'myorder',
+      },
+    ],
+  },
+  {
     path:'/detail/:skuId',
-    component:Detail,
+    component:()=>import("@/pages/Detail"),
     meta:{
       show:true,
     },
   },
   {
     path:'/login',
-    component:Login,
+    component:()=>import("@/pages/Login"),
     meta:{
       show:false,
     },
   },
   {
     path:'/register',
-    component:Register,
+    component:()=>import("@/pages/Register"),
     meta:{
       show:false,
     },
@@ -47,7 +83,7 @@ export default [
   {
     name:'addcartsuccess',
     path:'/addcartsuccess',
-    component:AddCartSuccess,
+    component:()=>import("@/pages/AddCartSuccess"),
     meta:{
       show:true,
     },
@@ -55,7 +91,7 @@ export default [
   {
     name:'shopcart',
     path:'/shopcart',
-    component:ShopCart,
+    component:()=>import("@/pages/ShopCart"),
     meta:{
       show:true,
     },
@@ -63,7 +99,8 @@ export default [
   {
     name:'search',
     path:'/search/:keyword?',
-    component:Search,
+    component:()=>import("@/pages/Search"),
+
     meta:{
       show:true,
     },

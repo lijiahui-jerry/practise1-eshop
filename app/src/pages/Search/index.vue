@@ -1,35 +1,35 @@
-<template >
- <div >
-  <TypeNav />
-  <div class="main" >
-   <div class="py-container" >
+<template>
+ <div>
+  <TypeNav/>
+  <div class="main">
+   <div class="py-container">
     <!--bread-->
-    <div class="bread" >
-     <ul class="fl sui-breadcrumb" >
-      <li >
-       <a href="#" >全部结果</a >
-      </li >
-     </ul >
-     <ul class="fl sui-tag" >
+    <div class="bread">
+     <ul class="fl sui-breadcrumb">
+      <li>
+       <a href="#">全部结果</a>
+      </li>
+     </ul>
+     <ul class="fl sui-tag">
       <!-- 分类的面包屑 -->
       <li class="with-x"
-          v-if="searchParams.categoryName" >
+          v-if="searchParams.categoryName">
        {{searchParams.categoryName}}
-       <i @click="removeCategoryName" >×</i >
-      </li >
+       <i @click="removeCategoryName">×</i>
+      </li>
       <!-- 关键字的面包屑 -->
       <li class="with-x"
-          v-if="searchParams.keyword" >
+          v-if="searchParams.keyword">
        {{searchParams.keyword}}
-       <i @click="removeKeyword" >×</i >
-      </li >
+       <i @click="removeKeyword">×</i>
+      </li>
       <!-- 品牌的面包屑 -->
       <li class="with-x"
-          v-if="searchParams.trademark" >
+          v-if="searchParams.trademark">
        <!-- split将品牌字符串在冒号处切割为数组的两个部分 -->
        {{searchParams.trademark.split(":")[1]}}
-       <i @click="removeTrademark" >×</i >
-      </li >
+       <i @click="removeTrademark">×</i>
+      </li>
       <!-- 商品属性的面包屑 -->
       <li
        class="with-x"
@@ -37,20 +37,20 @@
        :key="index"
       >
        {{attrValue.split(":")[1]}}
-       <i @click="removeAttrValue(index)" >×</i >
-      </li >
-     </ul >
-    </div >
+       <i @click="removeAttrValue(index)">×</i>
+      </li>
+     </ul>
+    </div>
 
     <!--selector-->
-    <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
+    <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo"/>
 
     <!--details-->
-    <div class="details clearfix" >
-     <div class="sui-navbar" >
-      <div class="navbar-inner filter" >
-       <ul class="sui-nav" >
-        <li :class="{ active: isOne }" @click="changeOrder('1')" >
+    <div class="details clearfix">
+     <div class="sui-navbar">
+      <div class="navbar-inner filter">
+       <ul class="sui-nav">
+        <li :class="{ active: isOne }" @click="changeOrder('1')">
          <a
          >综合
           <span
@@ -60,350 +60,346 @@
                         'icon-direction-up': isAsc,
                       }"
            v-show="isOne"
-          ></span >
-         </a >
-        </li >
-        <li :class="{ active: isTwo }" @click="changeOrder('2')" >
+          ></span>
+         </a>
+        </li>
+        <li :class="{ active: isTwo }" @click="changeOrder('2')">
          <a
          >价格
-          <span
-           class="iconfont"
-           :class="{
-                        'icon-direction-down': isDesc,
-                        'icon-direction-up': isAsc,
-                      }"
-           v-show="isTwo"
-          ></span >
-         </a >
-        </li >
-       </ul >
-      </div >
-     </div >
-     <div class="goods-list" >
-      <ul class="yui3-g" >
-       <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id" >
-        <div class="list-wrap" >
-         <div class="p-img" >
-          <a href="item.html" target="_blank" >
-           <router-link :to="`/detail/${goods.id}`" >
-            <img alt="" :src="goods.defaultImg" />
-           </router-link >
-          </a >
-         </div >
-         <div class="price" >
-          <strong >
-           <i ><em >¥</em >{{goods.price}}</i >
-          </strong >
-         </div >
-         <div class="attr" >
+          <span class="iconfont" v-show="isTwo"
+                :class="{'icon-direction-down': isDesc,
+                'icon-direction-up': isAsc}">
+          </span>
+         </a>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="goods-list">
+      <ul class="yui3-g">
+       <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
+        <div class="list-wrap">
+         <div class="p-img">
+          <a href="item.html" target="_blank">
+           <router-link :to="`/detail/${goods.id}`">
+            <img alt="" v-lazy="goods.defaultImg"/>
+           </router-link>
+          </a>
+         </div>
+         <div class="price">
+          <strong>
+           <i><em>¥</em>{{goods.price}}</i>
+          </strong>
+         </div>
+         <div class="attr">
           <a target="_blank" href="item.html"
              title='促销信息，下单即赠送三个月CIBN视频会员卡！【
-             小米电视新品4A 58 火爆预约中】' >
+             小米电视新品4A 58 火爆预约中】'>
            {{goods.title}}
-          </a >
-         </div >
-         <div class="commit" >
-          <i class="command" >
+          </a>
+         </div>
+         <div class="commit">
+          <i class="command">
            已有
-           <span >{{goods.hotScore}}</span >
+           <span>{{goods.hotScore}}</span>
            人评价
-          </i >
-         </div >
-         <div class="operate" >
+          </i>
+         </div>
+         <div class="operate">
           <a
            href="success-cart.html"
            target="_blank"
            class="sui-btn btn-bordered btn-danger"
           >
            加入购物车
-          </a >
-          <a href="javascript:void(0);" class="sui-btn btn-bordered" >
+          </a>
+          <a href="javascript:void(0);" class="sui-btn btn-bordered">
            收藏
-          </a >
-         </div >
-        </div >
-       </li >
-      </ul >
-     </div >
-     <Pagination :pageNo="searchParams.pageNo" :pageSize="searchParams.pageSize"
-                 :total="total" :continues="5" @getPage="getPage" >
-     </Pagination >
-    </div >
-   </div >
-  </div >
- </div >
-</template >
+          </a>
+         </div>
+        </div>
+       </li>
+      </ul>
+     </div>
+     <Pagination :pageNo="searchParams.pageNo" :continues="5"
+                 @getPage="getPage" :pageSize="searchParams.pageSize"
+                 :total="total"/>
+    </div>
+   </div>
+  </div>
+ </div>
+</template>
 
-<script >
-import SearchSelector from "@/pages/Search/SearchSelector";
-import {mapGetters, mapState} from "vuex";
+<script>
+import SearchSelector from "@/pages/Search/SearchSelector"
+import {mapGetters,mapState} from "vuex"
 
 export default {
-  name: "Search",
+  name:"Search",
 
-  data() {
+  data(){
     return {
-      searchParams: {
-        category1Id : "",
-        category2Id : "",
-        category3Id : "",
-        categoryName: "",
-        keyword     : "",
-        order       : "1:desc",
-        pageNo      : 1,
-        pageSize    : 10,
-        props       : [],
-        trademark   : "",
+      searchParams:{
+        category1Id:"",
+        category2Id:"",
+        category3Id:"",
+        categoryName:"",
+        keyword:"",
+        order:"1:desc",
+        pageNo:1,
+        pageSize:10,
+        props:[],
+        trademark:"",
       },
-    };
+    }
   },
 
-  components: {
+  components:{
     SearchSelector,
   },
 
-  beforeMount() {
-    Object.assign(this.searchParams, this.$route.query, this.$route.params);
+  beforeMount(){
+    Object.assign(this.searchParams,this.$route.query,this.$route.params)
   },
 
-  mounted() {
-    this.getData();
+  mounted(){
+    this.getData()
   },
 
-  methods: {
+  methods:{
     //获取数据
-    getData() {
-      this.$store.dispatch("getSearchInfo", this.searchParams);
+    getData(){
+      this.$store.dispatch("getSearchInfo",this.searchParams)
     },
 
     //移除分类的面包屑
-    removeCategoryName() {
-      this.searchParams.categoryName = undefined;
-      this.searchParams.category1Id = undefined;
-      this.searchParams.category2Id = undefined;
-      this.searchParams.category3Id = undefined;
+    removeCategoryName(){
+      this.searchParams.categoryName=undefined
+      this.searchParams.category1Id=undefined
+      this.searchParams.category2Id=undefined
+      this.searchParams.category3Id=undefined
 
-      this.getData();
-      if (this.$route.params)
-        this.$router.push({name: "search", params: this.$route.params});
+      this.getData()
+      if(this.$route.params)
+        this.$router.push({name:"search",params:this.$route.params})
     },
 
     //移除关键字的面包屑
-    removeKeyword() {
-      this.searchParams.keyword = undefined;
+    removeKeyword(){
+      this.searchParams.keyword=undefined
 
-      this.getData();
+      this.getData()
 
-      this.$bus.$emit("clearKeyword");
+      this.$bus.$emit("clearKeyword")
 
-      if (this.$route.query)
-        this.$router.push({name: "search", query: this.$route.query});
+      if(this.$route.query)
+        this.$router.push({name:"search",query:this.$route.query})
     },
 
     //移除品牌信息的面包屑
-    removeTrademark() {
-      this.searchParams.trademark = undefined;
-      this.getData();
+    removeTrademark(){
+      this.searchParams.trademark=undefined
+      this.getData()
     },
 
     //移除商品属性的面包屑
-    removeAttrValue(index) {
-      this.searchParams.props.splice(index, 1);
+    removeAttrValue(index){
+      this.searchParams.props.splice(index,1)
 
-      this.getData();
+      this.getData()
     },
 
     //获取子组件传过来的品牌信息
-    trademarkInfo(trademark) {
-      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+    trademarkInfo(trademark){
+      this.searchParams.trademark=`${trademark.tmId}:${trademark.tmName}`
 
-      this.getData();
+      this.getData()
     },
 
     //获取子组件传过来的商品属性信息
-    attrInfo(attr, attrValue) {
-      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
-      if (this.searchParams.props.indexOf(props) === -1)
-        this.searchParams.props.push(props);
+    attrInfo(attr,attrValue){
+      let props=`${attr.attrId}:${attrValue}:${attr.attrName}`
+      if(this.searchParams.props.indexOf(props)=== -1)
+        this.searchParams.props.push(props)
 
-      this.getData();
+      this.getData()
     },
 
     //改变排序属性
-    changeOrder(flag) {
+    changeOrder(flag){
       //记录原来的order各个属性
-      let originOrder = this.searchParams.order;
-      let originFlag = originOrder.split(":")[0];
-      let originSort = originOrder.split(":")[1];
+      let originOrder=this.searchParams.order
+      let originFlag=originOrder.split(":")[0]
+      let originSort=originOrder.split(":")[1]
 
-      let newOrder = `${flag}:`;
-      let s = originSort === "desc" ? "asc" : "desc";
+      let newOrder=`${flag}:`
+      let s=originSort==="desc"?"asc":"desc"
       //如果点击的排序已被激活，更改它降或升序
-      if (flag === originFlag) newOrder += s;
-      else newOrder += "desc";
+      if(flag===originFlag) newOrder+=s
+      else newOrder+="desc"
 
-      this.searchParams.order = newOrder;
+      this.searchParams.order=newOrder
 
-      this.getData();
+      this.getData()
     },
 
     //获取某页
-    getPage(page) {
-      this.searchParams.pageNo = page;
+    getPage(page){
+      this.searchParams.pageNo=page
 
-      this.getData();
+      this.getData()
     },
   },
 
-  watch: {
-    $route(newValue, oldValue) {
-      Object.assign(this.searchParams, this.$route.query, this.$route.params);
-      this.getData();
+  watch:{
+    $route(newValue,oldValue){
+      Object.assign(this.searchParams,this.$route.query,this.$route.params)
+      this.getData()
 
-      this.searchParams.category1Id = undefined;
-      this.searchParams.category2Id = undefined;
-      this.searchParams.category3Id = undefined;
+      this.searchParams.category1Id=undefined
+      this.searchParams.category2Id=undefined
+      this.searchParams.category3Id=undefined
     },
   },
 
-  computed: {
+  computed:{
     ...mapGetters(["goodsList"]),
     ...mapState({
-      total: (state) => state.search.searchInfo.total,
+      total:(state)=>state.search.searchInfo.total,
     }),
 
     //确定以什么类型进行排序
-    isOne() {
-      return this.searchParams.order.indexOf("1") !== -1;
+    isOne(){
+      return this.searchParams.order.indexOf("1")!== -1
     },
-    isTwo() {
-      return this.searchParams.order.indexOf("2") !== -1;
+    isTwo(){
+      return this.searchParams.order.indexOf("2")!== -1
     },
 
     //确定排序顺序
-    isAsc() {
-      return this.searchParams.order.indexOf("asc") !== -1;
+    isAsc(){
+      return this.searchParams.order.indexOf("asc")!== -1
     },
-    isDesc() {
-      return this.searchParams.order.indexOf("desc") !== -1;
+    isDesc(){
+      return this.searchParams.order.indexOf("desc")!== -1
     },
   },
-};
-</script >
+}
+</script>
 
-<style lang="less" scoped >
-.main {
-  margin : 10px 0;
+<style lang="less" scoped>
+.main{
+  margin:10px 0;
 
-  .py-container {
-    width  : 1200px;
-    margin : 0 auto;
+  .py-container{
+    width:1200px;
+    margin:0 auto;
 
-    .bread {
-      margin-bottom : 5px;
-      overflow      : hidden;
+    .bread{
+      margin-bottom:5px;
+      overflow:hidden;
 
-      .sui-breadcrumb {
-        padding       : 3px 15px;
-        margin        : 0;
-        font-weight   : 400;
-        border-radius : 3px;
-        float         : left;
+      .sui-breadcrumb{
+        padding:3px 15px;
+        margin:0;
+        font-weight:400;
+        border-radius:3px;
+        float:left;
 
-        li {
-          display     : inline-block;
-          line-height : 18px;
+        li{
+          display:inline-block;
+          line-height:18px;
 
-          a {
-            color           : #666;
-            text-decoration : none;
+          a{
+            color:#666666;
+            text-decoration:none;
 
-            &:hover {
-              color : #4cb9fc;
+            &:hover{
+              color:#4CB9FC;
             }
           }
         }
       }
 
-      .sui-tag {
-        margin-top    : -5px;
-        list-style    : none;
-        font-size     : 0;
-        line-height   : 0;
-        padding       : 5px 0 0;
-        margin-bottom : 18px;
-        float         : left;
+      .sui-tag{
+        margin-top:-5px;
+        list-style:none;
+        font-size:0;
+        line-height:0;
+        padding:5px 0 0;
+        margin-bottom:18px;
+        float:left;
 
-        .with-x {
-          font-size   : 12px;
-          margin      : 0 5px 5px 0;
-          display     : inline-block;
-          overflow    : hidden;
-          color       : #000;
-          background  : #f7f7f7;
-          padding     : 0 7px;
-          height      : 20px;
-          line-height : 20px;
-          border      : 1px solid #dedede;
-          white-space : nowrap;
-          transition  : color 400ms;
-          cursor      : pointer;
+        .with-x{
+          font-size:12px;
+          margin:0 5px 5px 0;
+          display:inline-block;
+          overflow:hidden;
+          color:#000000;
+          background:#F7F7F7;
+          padding:0 7px;
+          height:20px;
+          line-height:20px;
+          border:1px solid #DEDEDE;
+          white-space:nowrap;
+          transition:color 400ms;
+          cursor:pointer;
 
-          i {
-            margin-left    : 10px;
-            cursor         : pointer;
-            font           : 400 14px tahoma;
-            display        : inline-block;
-            height         : 100%;
-            vertical-align : middle;
+          i{
+            margin-left:10px;
+            cursor:pointer;
+            font:400 14px tahoma;
+            display:inline-block;
+            height:100%;
+            vertical-align:middle;
           }
 
-          &:hover {
-            color : #28a3ef;
+          &:hover{
+            color:#28A3EF;
           }
         }
       }
     }
 
-    .details {
-      margin-bottom : 5px;
+    .details{
+      margin-bottom:5px;
 
-      .sui-navbar {
-        overflow      : visible;
-        margin-bottom : 0;
+      .sui-navbar{
+        overflow:visible;
+        margin-bottom:0;
 
-        .filter {
-          min-height    : 40px;
-          padding-right : 20px;
-          background    : #fbfbfb;
-          border        : 1px solid #e2e2e2;
-          padding-left  : 0;
-          border-radius : 0;
-          box-shadow    : 0 1px 4px rgba(0, 0, 0, 0.065);
+        .filter{
+          min-height:40px;
+          padding-right:20px;
+          background:#FBFBFB;
+          border:1px solid #E2E2E2;
+          padding-left:0;
+          border-radius:0;
+          box-shadow:0 1px 4px rgba(0, 0, 0, 0.065);
 
-          .sui-nav {
-            position : relative;
-            left     : 0;
-            display  : block;
-            float    : left;
-            margin   : 0 10px 0 0;
+          .sui-nav{
+            position:relative;
+            left:0;
+            display:block;
+            float:left;
+            margin:0 10px 0 0;
 
-            li {
-              float       : left;
-              line-height : 18px;
+            li{
+              float:left;
+              line-height:18px;
 
-              a {
-                display         : block;
-                cursor          : pointer;
-                padding         : 11px 15px;
-                color           : #777;
-                text-decoration : none;
+              a{
+                display:block;
+                cursor:pointer;
+                padding:11px 15px;
+                color:#777777;
+                text-decoration:none;
               }
 
-              &.active {
-                a {
-                  background : #e1251b;
-                  color      : #fff;
+              &.active{
+                a{
+                  background:#E1251B;
+                  color:#FFFFFF;
                 }
               }
             }
@@ -411,121 +407,121 @@ export default {
         }
       }
 
-      .goods-list {
-        margin : 20px 0;
+      .goods-list{
+        margin:20px 0;
 
-        ul {
-          display   : flex;
-          flex-wrap : wrap;
+        ul{
+          display:flex;
+          flex-wrap:wrap;
 
-          li {
-            height      : 100%;
-            width       : 20%;
-            margin-top  : 10px;
-            line-height : 28px;
+          li{
+            height:100%;
+            width:20%;
+            margin-top:10px;
+            line-height:28px;
 
-            .list-wrap {
-              .p-img {
-                padding-left : 15px;
-                width        : 215px;
-                height       : 255px;
+            .list-wrap{
+              .p-img{
+                padding-left:15px;
+                width:215px;
+                height:255px;
 
-                a {
-                  color : #666;
+                a{
+                  color:#666666;
 
-                  img {
-                    max-width      : 100%;
-                    height         : auto;
-                    vertical-align : middle;
+                  img{
+                    max-width:100%;
+                    height:auto;
+                    vertical-align:middle;
                   }
                 }
               }
 
-              .price {
-                padding-left : 15px;
-                font-size    : 18px;
-                color        : #c81623;
+              .price{
+                padding-left:15px;
+                font-size:18px;
+                color:#C81623;
 
-                strong {
-                  font-weight : 700;
+                strong{
+                  font-weight:700;
 
-                  i {
-                    margin-left : -5px;
+                  i{
+                    margin-left:-5px;
                   }
                 }
               }
 
-              .attr {
-                padding-left       : 15px;
-                width              : 85%;
-                overflow           : hidden;
-                margin-bottom      : 8px;
-                min-height         : 38px;
-                cursor             : pointer;
-                line-height        : 1.8;
-                display            : -webkit-box;
-                -webkit-box-orient : vertical;
-                -webkit-line-clamp : 2;
+              .attr{
+                padding-left:15px;
+                width:85%;
+                overflow:hidden;
+                margin-bottom:8px;
+                min-height:38px;
+                cursor:pointer;
+                line-height:1.8;
+                display:-webkit-box;
+                -webkit-box-orient:vertical;
+                -webkit-line-clamp:2;
 
-                a {
-                  color           : #333;
-                  text-decoration : none;
+                a{
+                  color:#333333;
+                  text-decoration:none;
                 }
               }
 
-              .commit {
-                padding-left : 15px;
-                height       : 22px;
-                font-size    : 13px;
-                color        : #a7a7a7;
+              .commit{
+                padding-left:15px;
+                height:22px;
+                font-size:13px;
+                color:#A7A7A7;
 
-                span {
-                  font-weight : 700;
-                  color       : #646fb0;
+                span{
+                  font-weight:700;
+                  color:#646FB0;
                 }
               }
 
-              .operate {
-                padding : 12px 15px;
+              .operate{
+                padding:12px 15px;
 
-                .sui-btn {
-                  display          : inline-block;
-                  padding          : 2px 14px;
-                  box-sizing       : border-box;
-                  margin-bottom    : 0;
-                  font-size        : 12px;
-                  line-height      : 18px;
-                  text-align       : center;
-                  vertical-align   : middle;
-                  cursor           : pointer;
-                  border-radius    : 0;
-                  background-color : transparent;
-                  margin-right     : 15px;
+                .sui-btn{
+                  display:inline-block;
+                  padding:2px 14px;
+                  box-sizing:border-box;
+                  margin-bottom:0;
+                  font-size:12px;
+                  line-height:18px;
+                  text-align:center;
+                  vertical-align:middle;
+                  cursor:pointer;
+                  border-radius:0;
+                  background-color:transparent;
+                  margin-right:15px;
                 }
 
-                .btn-bordered {
-                  min-width        : 85px;
-                  background-color : transparent;
-                  border           : 1px solid #8c8c8c;
-                  color            : #8c8c8c;
+                .btn-bordered{
+                  min-width:85px;
+                  background-color:transparent;
+                  border:1px solid #8C8C8C;
+                  color:#8C8C8C;
 
-                  &:hover {
-                    border           : 1px solid #666;
-                    color            : #fff !important;
-                    background-color : #666;
-                    text-decoration  : none;
+                  &:hover{
+                    border:1px solid #666666;
+                    color:#FFFFFF !important;
+                    background-color:#666666;
+                    text-decoration:none;
                   }
                 }
 
-                .btn-danger {
-                  border : 1px solid #e1251b;
-                  color  : #e1251b;
+                .btn-danger{
+                  border:1px solid #E1251B;
+                  color:#E1251B;
 
-                  &:hover {
-                    border           : 1px solid #e1251b;
-                    background-color : #e1251b;
-                    color            : white !important;
-                    text-decoration  : none;
+                  &:hover{
+                    border:1px solid #E1251B;
+                    background-color:#E1251B;
+                    color:white !important;
+                    text-decoration:none;
                   }
                 }
               }
@@ -534,93 +530,93 @@ export default {
         }
       }
 
-      .page {
-        width    : 733px;
-        height   : 66px;
-        overflow : hidden;
-        float    : right;
+      .page{
+        width:733px;
+        height:66px;
+        overflow:hidden;
+        float:right;
 
-        .sui-pagination {
-          margin : 18px 0;
+        .sui-pagination{
+          margin:18px 0;
 
-          ul {
-            margin-left    : 0;
-            margin-bottom  : 0;
-            vertical-align : middle;
-            width          : 490px;
-            float          : left;
+          ul{
+            margin-left:0;
+            margin-bottom:0;
+            vertical-align:middle;
+            width:490px;
+            float:left;
 
-            li {
-              line-height : 18px;
-              display     : inline-block;
+            li{
+              line-height:18px;
+              display:inline-block;
 
-              a {
-                position         : relative;
-                float            : left;
-                line-height      : 18px;
-                text-decoration  : none;
-                background-color : #fff;
-                border           : 1px solid #e0e9ee;
-                margin-left      : -1px;
-                font-size        : 14px;
-                padding          : 9px 18px;
-                color            : #333;
+              a{
+                position:relative;
+                float:left;
+                line-height:18px;
+                text-decoration:none;
+                background-color:#FFFFFF;
+                border:1px solid #E0E9EE;
+                margin-left:-1px;
+                font-size:14px;
+                padding:9px 18px;
+                color:#333333;
               }
 
-              &.active {
-                a {
-                  background-color : #fff;
-                  color            : #e1251b;
-                  border-color     : #fff;
-                  cursor           : default;
+              &.active{
+                a{
+                  background-color:#FFFFFF;
+                  color:#E1251B;
+                  border-color:#FFFFFF;
+                  cursor:default;
                 }
               }
 
-              &.prev {
-                a {
-                  background-color : #fafafa;
+              &.prev{
+                a{
+                  background-color:#FAFAFA;
                 }
               }
 
-              &.disabled {
-                a {
-                  color  : #999;
-                  cursor : default;
+              &.disabled{
+                a{
+                  color:#999999;
+                  cursor:default;
                 }
               }
 
-              &.dotted {
-                span {
-                  margin-left      : -1px;
-                  position         : relative;
-                  float            : left;
-                  line-height      : 18px;
-                  text-decoration  : none;
-                  background-color : #fff;
-                  font-size        : 14px;
-                  border           : 0;
-                  padding          : 9px 18px;
-                  color            : #333;
+              &.dotted{
+                span{
+                  margin-left:-1px;
+                  position:relative;
+                  float:left;
+                  line-height:18px;
+                  text-decoration:none;
+                  background-color:#FFFFFF;
+                  font-size:14px;
+                  border:0;
+                  padding:9px 18px;
+                  color:#333333;
                 }
               }
 
-              &.next {
-                a {
-                  background-color : #fafafa;
+              &.next{
+                a{
+                  background-color:#FAFAFA;
                 }
               }
             }
           }
 
-          div {
-            color     : #333;
-            font-size : 14px;
-            float     : right;
-            width     : 241px;
+          div{
+            color:#333333;
+            font-size:14px;
+            float:right;
+            width:241px;
           }
         }
       }
     }
   }
 }
-</style >
+</style>

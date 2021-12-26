@@ -38,23 +38,23 @@
 
    <div class="detail">
     <h5>商品清单</h5>
-    <ul class="list clearFix">
-     <li><img src="./images/goods.png" alt=""></li>
+    <ul class="list clearFix" v-for="(order) in orderInfo.detailArrayList"
+        :key="order.skuId">
+     <li><img :src='order.imgUrl'></li>
      <li>
-      <p>
-       Apple iPhone 6s (A1700) 64G 玫瑰金色 移动联通电信4G手机硅胶透明防摔软壳 本色系列
-      </p>
+      <p>{{order.skuName}}</p>
       <h4>7天无理由退货</h4>
      </li>
-     <li><h3>￥5399.00</h3></li>
-     <li>X1</li>
+     <li><h3>￥{{order.orderPrice}}.00</h3></li>
+     <li>X{{order.skuNum}}</li>
      <li>有货</li>
     </ul>
    </div>
+
    <div class="bbs">
     <h5>买家留言：</h5>
-    <textarea placeholder="建议留言前先与商家沟通确认" class="remarks-cont"></textarea>
-
+    <textarea placeholder="建议留言前先与商家沟通确认" class="remarks-cont"
+              v-model="msg"/>
    </div>
 
    <div class="line"/>
@@ -72,15 +72,21 @@
 
   <div class="money clearFix">
    <ul>
-    <li><b><i>1</i>件商品，总商品金额</b> <span>¥5399.00</span></li>
-    <li><b>返现：</b> <span>0.00</span></li>
-    <li><b>运费：</b> <span>0.00</span></li>
+    <li>
+     <b><i>{{orderInfo.totalNum}}</i>件商品，总商品金额</b>
+     <span>¥{{orderInfo.originalTotalAmount}}.00</span>
+    </li>
+    <li>
+     <b>返现：</b>
+     <span>{{orderInfo.originalTotalAmount-orderInfo.totalAmount}}.00</span>
+    </li>
+    <li><b>运费：</b><span>0.00</span></li>
    </ul>
   </div>
 
   <div class="trade">
    <div class="price">
-    应付金额:　<span>¥5399.00</span>
+    应付金额:　<span>¥{{orderInfo.totalAmount}}.00</span>
    </div>
 
    <div class="receiveInfo">
@@ -91,7 +97,7 @@
   </div>
 
   <div class="sub clearFix">
-   <router-link class="subBtn" to="/pay">提交订单</router-link>
+   <a class="subBtn" @click="submitOrder">提交订单</a>
   </div>
  </div>
 </template>
@@ -101,7 +107,12 @@ import {mapState} from "vuex"
 
 export default {
   name:'Trade',
-
+  data(){
+    return {
+      msg:'',
+      orderId:'',
+    }
+  },
   mounted(){
     this.$store.dispatch('getUserAddressList')
     this.$store.dispatch('getOrderInfo')
@@ -112,16 +123,47 @@ export default {
       address.forEach((item)=>{ item.isDefault=0 })
       addr.isDefault=1
     },
+
+    async submitOrder(){
+      const {tradeNo}=this.orderInfo
+      const data={
+        "consignee":this.finalAddressInfo.consignee,
+        "consigneeTel":this.finalAddressInfo.phoneNum,
+        "deliveryAddress":this.finalAddressInfo.fullAddress,
+        "paymentWay":"ONLINE",
+        "orderComment":this.msg,
+        "orderDetailList":this.orderInfo.detailArrayList,
+      }
+      let result=await this.$API.reqSubmitOrder(tradeNo,data)
+
+      if(result.code==200){
+        this.orderId=result.data
+        this.$router.push(`pay?orderId=${this.orderId}`)
+      }else alert(result.message)
+    },
   },
 
   computed:{
     ...mapState({
-      address:state=>state.trade.address,
+      address:state=>state.trade.address || [],
+      orderInfo:state=>state.trade.orderInfo || {},
     }),
 
     //计算用户选择的地址信息
     finalAddressInfo(){
-      return this.address.find((item)=>item.isDefault==1)
+      return this.address.find((item)=>item.isDefault==1) || {}
+    },
+
+    //商品数量
+    goodsCount(){
+      return this.orderInfo.detailArrayList.length || '0'
+    },
+
+    //商品总价
+    goodsCost(){
+      let sum=0
+      this.orderInfo.detailArrayList.forEach((item)=>{sum+=item.orderPrice})
+      return sum
     },
   },
 }
@@ -267,6 +309,11 @@ export default {
       .list{
         display:flex;
         justify-content:space-between;
+
+        img{
+          width:100px;
+          height:100px;
+        }
 
         li{
           line-height:30px;

@@ -38,6 +38,18 @@ export const reqUserAddressList=
 export const reqOrderInfo=
   ()=>requests.get(`/order/auth/trade`)
 
+//获取订单支付信息
+export const reqPaymentInfo=
+  (orderId)=>requests.get(`/payment/weixin/createNative/${orderId}`)
+
+//获取订单支付状态
+export const reqPaymentStatus=
+  (orderId)=>requests.get(`/payment/weixin/queryPayStatus/${orderId}`)
+
+//获取个人中心的数据
+export const reqMyOrderList=
+  (page,limit)=>requests.get(`/order/auth/${page}/${limit}`)
+
 //POST
 //ajax获取商品搜索结果的函数
 export const reqSearchInfo=
@@ -66,6 +78,14 @@ export const reqUserRegister=
 export const reqUserLogin=
   (data)=>requests({
     url:`/user/passport/login`,
+    method:'POST',
+    data,
+  })
+
+//提交订单
+export const reqSubmitOrder=
+  (tradeNo,data)=>requests({
+    url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,
     method:'POST',
     data,
   })
